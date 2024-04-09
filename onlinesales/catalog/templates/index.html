@@ -1,0 +1,22 @@
+{% extends 'catalog/base_generic.html' %}
+
+{% block title %}Home - Online Sales{% endblock %}
+
+{% block content %}
+<h2>Welcome to Online Sales!</h2>
+
+{% if num_visits %}
+<p>You've visited this page {{ num_visits }} times.</p>
+{% endif %}
+
+<div class="product-subcategories">
+    <h3>Product Subcategories</h3>
+    <ul>
+        {% for subcategory in product_subcategories %}
+        <li>
+            {{ subcategory.english_product_subcategory_name }}: {{ subcategory.total_products }} products
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<h1>Shipped Orders</h1>
+
+{% if shipped_orders %}
+<ul>
+    {% for order in shipped_orders %}
+    <li>
+        Order ID: {{ order.id }} - Product: {{ order.product }} - Shipped Date: {{ order.ship_date_actual }}
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No shipped orders found.</p>
+{% endif %}
+{% endblock %}
