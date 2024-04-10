@@ -50,6 +50,11 @@ class Orders(models.Model):
         verbose_name_plural = 'Orders'
         unique_together = ('sales_order_number', 'sales_order_line_number')
 
+    class Meta:
+        permissions = (
+            ("can_mark_shipped", "Can mark order as shipped"),
+        )  
+
     def __str__(self):
         """String for representing the Model object."""
         return f'{self.sales_order_number}-{self.sales_order_line_number}'

@@ -21,10 +21,11 @@
             <li><a href="{% url 'recent-orders' %}">Recent Orders</a></li>
             <li><a href="{% url 'product-subcategories' %}">Product Subcategories</a></li>
             <!-- Placeholder for Additional navigation items can be added here -->
-
             {% if user.is_authenticated %}
             <li>User: {{ user.get_username }}</li>
-            <li><a href="{% url 'my-shipped-orders' %}">Shipped Orders</a></li>
+            {% if perms.catalog.can_mark_shipped %}
+            <li><a href="{% url 'my-shipped-orders' %}">My Shipped Orders</a></li>
+            {% endif %}
             <li>
                 <form id="logout-form" method="post" action="{% url 'logout' %}">
                     {% csrf_token %}
