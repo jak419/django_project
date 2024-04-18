@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from .models import Product, Orders, Customer, ProductSubcategory
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,6 +7,9 @@ from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse_lazy
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from .forms import OrderForm
+from django.http import HttpResponse
+import json
 
 def index(request):
     """View function for the home page of the site."""
@@ -131,3 +134,17 @@ class ShippedOrdersByUserListView(LoginRequiredMixin, PermissionRequiredMixin, L
         except ObjectDoesNotExist:
             # If no matching Customer is found, return an empty queryset
             return Orders.objects.none()
+        
+def create_order(request):
+    if request.method == 'POST':
+        form = OrderForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('index')
+    else:
+        form = OrderForm()
+
+    products = Product.objects.all().values('id', 'list_price')
+    product_prices = json.dumps({str(product['id']): (float(product['list_price']) if product['list_price'] else 0) for product in products})
+    return render(request, 'catalog/order_form.html', {'form': form, 'product_prices': product_prices})
+

@@ -13,7 +13,7 @@
         <h3>Order Number: {{ order.sales_order_number }}</h3>
         <p>Date: {{ order.order_date_actual|date:"F d, Y" }}</p>
         <p>Total Products: {{ order.order_quantity }}</p>
-        <p>Total Cost: ${{ order.total_product_cost }}</p>
+        <p>Total Cost: ${{ order.extended_amount }}</p>
         <!-- More order details can be added here -->
         <p>
             <a href="{% url 'product-detail' order.product.pk %}">

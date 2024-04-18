@@ -2,31 +2,32 @@ from django.db import models
 from django.urls import reverse
 from django.conf import settings
 from datetime import date
+import uuid
 
 # Create your models here.
 
 class Orders(models.Model):
     product = models.ForeignKey('Product', on_delete=models.RESTRICT, help_text="Select product for this sale")
-    order_date = models.ForeignKey('Date', related_name='orders_order_date', on_delete=models.RESTRICT, help_text="Select order date")
-    due_date = models.ForeignKey('Date', related_name='orders_due_date', on_delete=models.RESTRICT, help_text="Select due date")
-    ship_date = models.ForeignKey('Date', related_name='orders_ship_date', on_delete=models.RESTRICT, help_text="Select ship date")
+    order_date = models.ForeignKey('Date', related_name='orders_order_date', on_delete=models.RESTRICT, help_text="Select order date", null=True, blank=True)
+    due_date = models.ForeignKey('Date', related_name='orders_due_date', on_delete=models.RESTRICT, help_text="Select due date", null=True, blank=True)
+    ship_date = models.ForeignKey('Date', related_name='orders_ship_date', on_delete=models.RESTRICT, help_text="Select ship date", null=True, blank=True)
     customer = models.ForeignKey('Customer', on_delete=models.RESTRICT, help_text="Select customer for this sale")
     #promotion = models.ForeignKey('Promotion', on_delete=models.RESTRICT, help_text="Select promotion applied to this sale")
     currency = models.ForeignKey('Currency', on_delete=models.RESTRICT, help_text="Select currency for this sale")
     #sales_territory = models.ForeignKey('SalesTerritory', on_delete=models.RESTRICT, help_text="Select sales territory for this sale")
-    sales_order_number = models.CharField(max_length=20, help_text="Enter sales order number")
+    sales_order_number = models.CharField(max_length=20, help_text="Enter sales order number", blank=True)
     sales_order_line_number = models.PositiveSmallIntegerField(help_text="Enter sales order line number")
-    revision_number = models.PositiveSmallIntegerField(help_text="Enter revision number")
+    revision_number = models.PositiveSmallIntegerField(help_text="Enter revision number",  null=True, blank=True)
     order_quantity = models.PositiveSmallIntegerField(help_text="Enter order quantity")
     unit_price = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter unit price")
-    extended_amount = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter extended amount")
-    unit_price_discount_pct = models.FloatField(help_text="Enter unit price discount percent")
-    discount_amount = models.FloatField(help_text="Enter discount amount")
-    product_standard_cost = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter product standard cost")
-    total_product_cost = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter total product cost")
-    sales_amount = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter sales amount")
-    tax_amt = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter tax amount")
-    freight = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter freight")
+    extended_amount = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter extended amount", null=True, blank=True)
+    unit_price_discount_pct = models.FloatField(help_text="Enter unit price discount percent", null=True, blank=True)
+    discount_amount = models.FloatField(help_text="Enter discount amount", null=True, blank=True)
+    product_standard_cost = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter product standard cost", null=True, blank=True)
+    total_product_cost = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter total product cost", null=True, blank=True)
+    sales_amount = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter sales amount", null=True, blank=True)
+    tax_amt = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter tax amount", null=True, blank=True)
+    freight = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter freight", null=True, blank=True)
     order_date_actual = models.DateTimeField(null=True, blank=True, help_text="Enter the actual order date")
     due_date_actual = models.DateTimeField(null=True, blank=True, help_text="Enter the actual due date")
     ship_date_actual = models.DateTimeField(null=True, blank=True, help_text="Enter the actual ship date")
@@ -62,6 +63,12 @@ class Orders(models.Model):
     def get_absolute_url(self):
         """Returns the URL to access a detail record for this order."""
         return reverse('order-detail', args=[str(self.id)])
+
+    def save(self, *args, **kwargs):
+        if not self.sales_order_number:
+            # Generate a unique identifier for the sales order number
+            self.sales_order_number = str(uuid.uuid4())[:8]  
+        super().save(*args, **kwargs)
 
 
 class Customer(models.Model):
@@ -191,6 +198,9 @@ class Product(models.Model):
     start_date = models.DateTimeField(null=True, blank=True, help_text="Enter the start date of the product availability")
     end_date = models.DateTimeField(null=True, blank=True, help_text="Enter the end date of the product availability")
     status = models.CharField(max_length=7, null=True, blank=True, help_text="Enter the status of the product")
+
+    def __str__(self):
+        return f"{self.english_product_name} (ID: {self.id})"
 
     class Meta:
         verbose_name = 'Product'
