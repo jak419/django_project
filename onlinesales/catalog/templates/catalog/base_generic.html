@@ -19,10 +19,11 @@
             <li><a href="{% url 'index' %}">Home</a></li>
             <li><a href="{% url 'products' %}">All Products</a></li>
             <li><a href="{% url 'product-subcategories' %}">Product Subcategories</a></li>
+            <!--<li><a href="{% url 'create-order' %}">Place New Order</a></li> -->
+            <!-- Require authentication for these links -->
+            {% if user.is_authenticated %}
             <li><a href="{% url 'create-order' %}">Place New Order</a></li>
             <li><a href="{% url 'recent-orders' %}">Recent Orders</a></li>
-            <!-- Placeholder for Additional navigation items can be added here -->
-            {% if user.is_authenticated %}
             <li>User: {{ user.get_username }}</li>
             {% if perms.catalog.can_mark_shipped %}
             <li><a href="{% url 'my-shipped-orders' %}">My Shipped Orders</a></li>
@@ -35,6 +36,7 @@
             </li>
             {% else %}
             <li><a href="{% url 'login' %}?next={{ request.path }}">Login</a></li>
+            <li><a href="{% url 'register-customer' %}">New User Sign Up</a></li>
             {% endif %}
         </ul>
     </nav>

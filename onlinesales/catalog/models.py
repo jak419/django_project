@@ -3,6 +3,9 @@ from django.urls import reverse
 from django.conf import settings
 from datetime import date
 import uuid
+from datetime import timedelta
+from django.utils import timezone
+from django.contrib.auth.models import User
 
 # Create your models here.
 
@@ -16,7 +19,7 @@ class Orders(models.Model):
     currency = models.ForeignKey('Currency', on_delete=models.RESTRICT, help_text="Select currency for this sale")
     #sales_territory = models.ForeignKey('SalesTerritory', on_delete=models.RESTRICT, help_text="Select sales territory for this sale")
     sales_order_number = models.CharField(max_length=20, help_text="Enter sales order number", blank=True)
-    sales_order_line_number = models.PositiveSmallIntegerField(help_text="Enter sales order line number")
+    sales_order_line_number = models.PositiveSmallIntegerField(help_text="Enter sales order line number", null=True, blank=True)
     revision_number = models.PositiveSmallIntegerField(help_text="Enter revision number",  null=True, blank=True)
     order_quantity = models.PositiveSmallIntegerField(help_text="Enter order quantity")
     unit_price = models.DecimalField(max_digits=19, decimal_places=4, help_text="Enter unit price")
@@ -64,24 +67,36 @@ class Orders(models.Model):
         """Returns the URL to access a detail record for this order."""
         return reverse('order-detail', args=[str(self.id)])
 
-    def save(self, *args, **kwargs):
-        if not self.sales_order_number:
+    #def save(self, *args, **kwargs):
+        #if not self.sales_order_number:
             # Generate a unique identifier for the sales order number
-            self.sales_order_number = str(uuid.uuid4())[:8]  
-        super().save(*args, **kwargs)
+            #self.sales_order_number = str(uuid.uuid4())[:8]  
+        #super().save(*args, **kwargs)
 
+    def save(self, *args, **kwargs):
+        if not self.id:  # Dates are set only when the order is first created
+            now = timezone.now()
+            self.order_date_actual = now
+            self.due_date_actual = now + timedelta(days=1)
+            self.ship_date_actual = now + timedelta(days=2)
+
+        if not self.sales_order_number:
+            self.sales_order_number = str(uuid.uuid4())[:8]  # Generate unique order number if not set
+
+        super().save(*args, **kwargs)
+    
 
 class Customer(models.Model):
-    #user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='customer')
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='customer', null=True)
     """Model representing a customer."""
-    customer_alternate_key = models.CharField(max_length=15, unique=True)
+    customer_alternate_key = models.CharField(max_length=15, unique=True, default=uuid.uuid4)
     title = models.CharField(max_length=8, null=True, blank=True)
-    first_name = models.CharField(max_length=50, null=True, blank=True)
+    first_name = models.CharField(max_length=50, null=False, blank=False)
     middle_name = models.CharField(max_length=50, null=True, blank=True)
-    last_name = models.CharField(max_length=50, null=True, blank=True)
-    birth_date = models.DateField(null=True, blank=True)
+    last_name = models.CharField(max_length=50, null=False, blank=False)
+    birth_date = models.DateField(null=False, blank=False)
     gender = models.CharField(max_length=1, null=True, blank=True)
-    email_address = models.CharField(max_length=50, null=True, blank=True)
+    email_address = models.CharField(max_length=50, null=False, blank=False)
     english_education = models.CharField(max_length=40, null=True, blank=True)
     spanish_education = models.CharField(max_length=40, null=True, blank=True)
     french_education = models.CharField(max_length=40, null=True, blank=True)
@@ -107,6 +122,17 @@ class Customer(models.Model):
 
     def get_absolute_url(self):
         """Returns the URL to access a detail record for this customer."""
+        return reverse('customer-detail', args=[str(self.id)])
+
+    def save(self, *args, **kwargs):
+        if not self.customer_alternate_key:
+            self.customer_alternate_key = str(uuid.uuid4())[:15]  # Generating a unique key
+        super().save(*args, **kwargs)
+
+    def __str__(self):
+        return f'{self.first_name} {self.last_name}'
+
+    def get_absolute_url(self):
         return reverse('customer-detail', args=[str(self.id)])
 
 

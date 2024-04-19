@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import ProductListView, ProductDetailView, ProductSubcategoryListView, product_subcategory_view, ShippedOrdersListView, ShippedOrdersByUserListView
 from catalog.views import RecentOrdersListView
-from .views import create_order
+from .views import create_order, register_customer
 
 
 urlpatterns = [
@@ -23,7 +23,7 @@ urlpatterns = [
 
     path('product-subcategories/', ProductSubcategoryListView.as_view(), name='product-subcategories'),
 
-    path('subcategory/<int:subcategory_id>/', product_subcategory_view, name='product-subcategory'),
+    path('subcategory/<int:subcategory_id>/', views.product_subcategory_view, name='product-subcategory'),
 
     path('product/<int:pk>/', ProductDetailView.as_view(), name='product-detail'),
     path('recent-orders/', RecentOrdersListView.as_view(), name='recent-orders'),
@@ -31,5 +31,6 @@ urlpatterns = [
     path('my-shipped-orders/', ShippedOrdersByUserListView.as_view(), name='my-shipped-orders'),
 
     path('create-order/', create_order, name='create-order'),
+    path('register/', register_customer, name='register-customer'),
 ]
 
