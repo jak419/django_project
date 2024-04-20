@@ -33,7 +33,7 @@ def index(request):
             context['shipped_orders'] = shipped_orders
         except Customer.DoesNotExist:
             context['shipped_orders'] = None
-    # Check if user is authenticated and has the 'catalog.can_mark_shipped' permission
+    # Checking if user is authenticated and has the 'catalog.can_mark_shipped' permission
     if request.user.is_authenticated and request.user.has_perm('catalog.can_mark_shipped'):
         shipped_orders = Orders.objects.filter(status='s').order_by('-order_date')
         context['shipped_orders'] = shipped_orders
@@ -200,7 +200,7 @@ class AllOrdersListView(PermissionRequiredMixin, ListView):
     model = Orders
     template_name = 'catalog/all_orders_list.html'
     context_object_name = 'orders'
-    permission_required = 'catalog.can_mark_shipped'  # Ensure only authorized users can view this
+    permission_required = 'catalog.can_mark_shipped'  # Ensuring only authorized users can view this
 
     def get_queryset(self):
         return Orders.objects.all().order_by('-order_date')  
