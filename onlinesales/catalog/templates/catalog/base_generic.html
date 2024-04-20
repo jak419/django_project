@@ -27,6 +27,7 @@
             <li>User: {{ user.get_username }}</li>
             {% if perms.catalog.can_mark_shipped %}
             <li><a href="{% url 'my-shipped-orders' %}">My Shipped Orders</a></li>
+            <li><a href="{% url 'all-orders' %}">View All Orders</a></li>
             {% endif %}
             <li>
                 <form id="logout-form" method="post" action="{% url 'logout' %}">

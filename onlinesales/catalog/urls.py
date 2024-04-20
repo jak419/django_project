@@ -2,7 +2,7 @@ from django.urls import path
 from . import views
 from .views import ProductListView, ProductDetailView, ProductSubcategoryListView, product_subcategory_view, ShippedOrdersListView, ShippedOrdersByUserListView
 from catalog.views import RecentOrdersListView
-from .views import create_order, register_customer
+from .views import create_order, register_customer, update_order_status, AllOrdersListView
 
 
 urlpatterns = [
@@ -32,5 +32,7 @@ urlpatterns = [
 
     path('create-order/', create_order, name='create-order'),
     path('register/', register_customer, name='register-customer'),
+    path('order/<int:pk>/update-status/', update_order_status, name='update-order-status'),
+    path('all-orders/', AllOrdersListView.as_view(), name='all-orders')
 ]
 

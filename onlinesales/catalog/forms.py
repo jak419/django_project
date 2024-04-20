@@ -61,3 +61,12 @@ class CustomerRegistrationForm(UserCreationForm):
                 email_address=self.cleaned_data['email']
             )
         return user
+    
+class OrderStatusForm(forms.ModelForm):
+    class Meta:
+        model = Orders
+        fields = ['status']
+
+    def __init__(self, *args, **kwargs):
+        super(OrderStatusForm, self).__init__(*args, **kwargs)
+        self.fields['status'].label = "Update Order Status"

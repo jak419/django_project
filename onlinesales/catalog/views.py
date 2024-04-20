@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from .models import Product, Orders, Customer, ProductSubcategory
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.decorators import permission_required
 from django.db.models import Count
 from django.utils.decorators import method_decorator
 from django.contrib.auth.decorators import login_required
@@ -11,6 +12,7 @@ from .forms import OrderForm
 from django.http import HttpResponse
 import json
 from .forms import CustomerRegistrationForm
+from .forms import OrderStatusForm
 
 def index(request):
     """View function for the home page of the site."""
@@ -173,9 +175,32 @@ def register_customer(request):
             return redirect('index')  # Redirect to login page after registration
         else:
             print(form.errors)
-            
+
     else:
         form = CustomerRegistrationForm()
 
     return render(request, 'catalog/register_customer.html', {'form': form})
 
+
+@permission_required('catalog.can_mark_shipped', raise_exception=True)
+def update_order_status(request, pk):
+    order = get_object_or_404(Orders, pk=pk)
+    if request.method == 'POST':
+        form = OrderStatusForm(request.POST, instance=order)
+        if form.is_valid():
+            form.save()
+            return redirect('all-orders')  # Redirect to  orders listing page
+    else:
+        form = OrderStatusForm(instance=order)
+
+    return render(request, 'catalog/update_order_status.html', {'form': form, 'order': order})
+
+
+class AllOrdersListView(PermissionRequiredMixin, ListView):
+    model = Orders
+    template_name = 'catalog/all_orders_list.html'
+    context_object_name = 'orders'
+    permission_required = 'catalog.can_mark_shipped'  # Ensure only authorized users can view this
+
+    def get_queryset(self):
+        return Orders.objects.all().order_by('-order_date')  
