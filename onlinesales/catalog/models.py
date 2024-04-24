@@ -139,7 +139,7 @@ class Customer(models.Model):
 class Date(models.Model):
     """Model representing a date dimension."""
     date_key = models.IntegerField(primary_key=True)
-    full_date_alternate_key = models.DateField(unique=True)
+    full_date_alternate_key = models.DateField()
     day_number_of_week = models.PositiveSmallIntegerField()
     english_day_name_of_week = models.CharField(max_length=10)
     spanish_day_name_of_week = models.CharField(max_length=10)
@@ -153,10 +153,10 @@ class Date(models.Model):
     month_number_of_year = models.PositiveSmallIntegerField()
     calendar_quarter = models.PositiveSmallIntegerField()
     calendar_year = models.SmallIntegerField()
-    calendar_semester = models.PositiveSmallIntegerField()
-    fiscal_quarter = models.PositiveSmallIntegerField()
-    fiscal_year = models.SmallIntegerField()
-    fiscal_semester = models.PositiveSmallIntegerField()
+    calendar_semester = models.PositiveSmallIntegerField(null=True, blank=True)
+    fiscal_quarter = models.PositiveSmallIntegerField(null=True, blank=True)
+    fiscal_year = models.SmallIntegerField(null=True, blank=True)
+    fiscal_semester = models.PositiveSmallIntegerField(null=True, blank=True)
 
     class Meta:
         verbose_name = 'Date'
@@ -216,6 +216,7 @@ class Product(models.Model):
     standard_cost = models.DecimalField(max_digits=19, decimal_places=4, null=True, blank=True, help_text="Enter the standard cost of the product")
     finished_goods_flag = models.BooleanField(help_text="Indicate whether the product is a finished good")
     color = models.CharField(max_length=15, help_text="Enter the color of the product")
+    inventory_count = models.IntegerField(default=100, help_text="Inventory count of the product")
     safety_stock_level = models.SmallIntegerField(null=True, blank=True, help_text="Enter the safety stock level")
     reorder_point = models.SmallIntegerField(null=True, blank=True, help_text="Enter the reorder point")
     list_price = models.DecimalField(max_digits=19, decimal_places=4, null=True, blank=True, help_text="Enter the list price of the product")
