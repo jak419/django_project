@@ -13,25 +13,25 @@ Before you can run this project, you'll need to have the following installed:
 
 Follow these steps to get your development environment set up:
 
-1. **Clone the repository:**
+1. **Clone the repository: **
    ```bash
    git clone https://github.com/yourgithubusername/onlinesales.git
    cd onlinesales
 
-2. **Set Up a Python virtual environment:**
+2. **Set Up a Python virtual environment: **
   python -m venv venv
   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-3. **Configure Redis**
+3. **Configure Redis: **
   Ensure Redis is installed and running on your machine. The default configuration expects Redis to be available on localhost on port 6379.
 
-4. **Migrate the database**
+4. **Migrate the database: **
   python manage.py migrate
 
-5. **Create a superuser (optional but recommended for accessing the Django admin panel)**
+5. **Create a superuser (optional but recommended for accessing the Django admin panel): **
   python manage.py createsuperuser
 
-6. **Running the Project**
+6. **Running the Project :**
   python manage.py runserver
   This will start the Django development server, making the project accessible at http://localhost:8000
 
