@@ -3,23 +3,26 @@ from .models import Orders, Product, Customer
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 
+
 class OrderForm(forms.ModelForm):
     class Meta:
         model = Orders
-        fields = ['product', 'order_quantity', 'unit_price', 'extended_amount','currency', 'customer']
+        fields = ['product', 'order_quantity', 'unit_price',
+                  'extended_amount', 'currency', 'customer']
         widgets = {
-            #'order_date_actual': forms.DateInput(attrs={'type': 'date'}),
-            #'due_date_actual': forms.DateInput(attrs={'type': 'date'}),
-            #'ship_date_actual': forms.DateInput(attrs={'type': 'date'}),
+            # 'order_date_actual': forms.DateInput(attrs={'type': 'date'}),
+            # 'due_date_actual': forms.DateInput(attrs={'type': 'date'}),
+            # 'ship_date_actual': forms.DateInput(attrs={'type': 'date'}),
             'unit_price': forms.TextInput(attrs={'readonly': True}),
             'extended_amount': forms.TextInput(attrs={'readonly': True}),
         }
 
     def __init__(self, *args, **kwargs):
         super(OrderForm, self).__init__(*args, **kwargs)
-        
+
         self.fields['product'].queryset = Product.objects.all()
-        self.fields['product'].label_from_instance = lambda obj: f"{obj.english_product_name} (ID: {obj.id})"
+        self.fields['product'].label_from_instance = lambda obj: f"{
+            obj.english_product_name} (ID: {obj.id})"
 
         self.fields['product'].help_text = "Select a product by its ID and name"
 
@@ -30,11 +33,12 @@ class OrderForm(forms.ModelForm):
         if commit:
             instance.save()
         return instance
-    
-#class CustomerRegistrationForm(forms.ModelForm):
+
+# class CustomerRegistrationForm(forms.ModelForm):
 #    class Meta:
 #        model = Customer
 #        fields = ['first_name', 'last_name', 'birth_date', 'email_address']
+
 
 class CustomerRegistrationForm(UserCreationForm):
     first_name = forms.CharField(required=True)
@@ -44,7 +48,8 @@ class CustomerRegistrationForm(UserCreationForm):
 
     class Meta:
         model = User
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2', 'birth_date')
+        fields = ('username', 'first_name', 'last_name', 'email',
+                  'password1', 'password2', 'birth_date')
 
     def save(self, commit=True):
         user = super().save(commit=False)
@@ -61,7 +66,8 @@ class CustomerRegistrationForm(UserCreationForm):
                 email_address=self.cleaned_data['email']
             )
         return user
-    
+
+
 class OrderStatusForm(forms.ModelForm):
     class Meta:
         model = Orders
