@@ -33,7 +33,7 @@ Follow these steps to get your development environment set up:
 7. **Create a superuser (optional but recommended for accessing the Django admin panel) and signing in:**
       ```bash
    python manage.py createsuperuser
-   - Alternatively, you can log create a user on the 'sign in' screen as a customer.
+- Alternatively, you can log create a user on the 'sign in' screen as a customer.
 
 9. **Running the Project :**
   python manage.py runserver
