@@ -31,7 +31,7 @@ Follow these steps to get your development environment set up:
    python manage.py migrate
 
 7. **Create a superuser (optional but recommended for accessing the Django admin panel) and signing in:**
-         ```bash
+      ```bash
    python manage.py createsuperuser
    - Alternatively, you can log create a user on the 'sign in' screen as a customer.
 
