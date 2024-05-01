@@ -30,19 +30,19 @@ Follow these steps to get your development environment set up:
       ```bash
    python manage.py migrate
 
-7. **Create a superuser (optional but recommended for accessing the Django admin panel) and signing in:**
+6. **Create a superuser (optional but recommended for accessing the Django admin panel) and signing in:**
       ```bash
    python manage.py createsuperuser
 - Alternatively, you can log create a user on the 'sign in' screen as a customer.
 
-9. **Running the Project :**
+7. **Running the Project :**
   python manage.py runserver
   This will start the Django development server, making the project accessible at http://localhost:8000
 
-10. **Testing :**
+8. **Testing :**
       ```bash
       Run standard Django tests : python manage.py test
       Run WebSocket tests:  python manage.py test catalog.tests.test_websockets
 
-11. **Logging :**
+9. **Logging :**
   Actions within the app such as creating, updating, or deleting orders log to CSV files within the catalog/logs directory.
