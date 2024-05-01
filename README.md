@@ -20,7 +20,7 @@ Follow these steps to get your development environment set up:
 
 2. **Set Up a Python virtual environment :**
   python -m venv venv
-source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+- source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 3. **Configure Redis :**
   Ensure Redis is installed and running on your machine. The default configuration expects Redis to be available on localhost on port 6379.
