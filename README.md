@@ -40,7 +40,7 @@ Follow these steps to get your development environment set up:
   This will start the Django development server, making the project accessible at http://localhost:8000
 
 10. **Testing :**
-       ```bash
+   ```bash
    Run standard Django tests : python manage.py test
    Run WebSocket tests:  python manage.py test catalog.tests.test_websockets
 
