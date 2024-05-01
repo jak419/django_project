@@ -19,33 +19,26 @@ Follow these steps to get your development environment set up:
    cd onlinesales
 
 2. **Set Up a Python virtual environment :**
-   `` python -m venv ``` 
-  source venv/bin/activate  # On Windows use `venv\Scripts\activate`
+  python -m venv venv
+source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-4. **Configure Redis :**
+3. **Configure Redis :**
   Ensure Redis is installed and running on your machine. The default configuration expects Redis to be available on localhost on port 6379.
 
-5. **Migrate the database :**
-   ```bash
+4. **Migrate the database :**
   python manage.py migrate
 
-7. **Create a superuser (optional but recommended for accessing the Django admin panel) and signing in:**
-   ```bash
+5. **Create a superuser (optional but recommended for accessing the Django admin panel) and signing in:**
   python manage.py createsuperuser
-Alternatively, you can log create a user on the 'sign in' screen as a customer.
+   Alternatively, you can log create a user on the 'sign in' screen as a customer.
 
-9. **Running the Project :**
-   ```bash
+7. **Running the Project :**
   python manage.py runserver
-This will start the Django development server, making the project accessible at http://localhost:8000
+  This will start the Django development server, making the project accessible at http://localhost:8000
 
-11. **Testing :**
-  Run standard Django tests :
-```bash
-python manage.py test
-Run WebSocket tests:
-```bash
-python manage.py test catalog.tests.test_websockets
+8. **Testing :**
+  Run standard Django tests : python manage.py test
+  Run WebSocket tests:  python manage.py test catalog.tests.test_websockets
 
-13. **Logging :**
+9. **Logging :**
   Actions within the app such as creating, updating, or deleting orders log to CSV files within the catalog/logs directory.
