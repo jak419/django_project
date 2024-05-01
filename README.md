@@ -19,7 +19,7 @@ Follow these steps to get your development environment set up:
    cd onlinesales
 
 2. **Set Up a Python virtual environment :**
-   ```bash python -m venv venv
+   ```bash python -m venv venv ```bash 
   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
 4. **Configure Redis :**
