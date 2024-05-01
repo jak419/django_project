@@ -1,4 +1,4 @@
-# django_project
+# CIDM6330_project
 Online Sales Systems written in Django
 
 # Catalog App
@@ -13,31 +13,32 @@ Before you can run this project, you'll need to have the following installed:
 
 Follow these steps to get your development environment set up:
 
-1. **Clone the repository:**
+1. **Clone the repository :**
    ```bash
    git clone https://github.com/yourgithubusername/onlinesales.git
    cd onlinesales
 
-2. **Set Up a Python virtual environment:**
+2. **Set Up a Python virtual environment :**
   python -m venv venv
   source venv/bin/activate  # On Windows use `venv\Scripts\activate`
 
-3. **Configure Redis**
+3. **Configure Redis :**
   Ensure Redis is installed and running on your machine. The default configuration expects Redis to be available on localhost on port 6379.
 
-4. **Migrate the database**
+4. **Migrate the database :**
   python manage.py migrate
 
-5. **Create a superuser (optional but recommended for accessing the Django admin panel)**
+5. **Create a superuser (optional but recommended for accessing the Django admin panel) and signing in:**
   python manage.py createsuperuser
+   Alternatively, you can log create a user on the 'sign in' screen as a customer.
 
-6. **Running the Project**
+7. **Running the Project :**
   python manage.py runserver
   This will start the Django development server, making the project accessible at http://localhost:8000
 
-7. **Testing**
+8. **Testing :**
   Run standard Django tests : python manage.py test
   Run WebSocket tests:  python manage.py test catalog.tests.test_websockets
 
-8. **Logging**
+9. **Logging :**
   Actions within the app such as creating, updating, or deleting orders log to CSV files within the catalog/logs directory.
