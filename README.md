@@ -1,19 +1,38 @@
-# CIDM6330_project
-Online Sales Systems written in Django
+# 🛍️ Online Sales System (Django Project)
 
-# Catalog App
-The Catalog app is part of the `onlinesales` Django project. It manages product listings, customer interactions, and order processing, incorporating real-time features through Django Channels.
+Welcome to the **Online Sales System**, a Django-based web application designed to manage product listings, customer interactions, and order processing. This project leverages the power of **Django Channels** for real-time features and integrates **Redis** for WebSocket support.
 
-## Prerequisites
-Before you can run this project, you'll need to have the following installed:
-- Python 3.8 or higher
-- Django 3.2 or higher
-- Django Channels
-- Redis (for WebSocket support)
+---
 
-Follow these steps to get your development environment set up:
+## 📋 Overview
 
-1. **Clone the repository :**
+- **Framework**: Django
+- **Key Features**:
+  - Real-time functionalities enabled by Django Channels and Redis.
+  - Comprehensive product catalog and order management.
+  - Robust logging for key actions.
+- **Primary App**: `Catalog`
+  - Manages products, orders, and customer interactions.
+  - Tracks application logs in CSV format for auditing.
+
+---
+
+## 🛠️ Prerequisites
+
+Before you can run this project, ensure you have the following installed:
+- **Python 3.8 or higher**
+- **Django 3.2 or higher**
+- **Django Channels**
+- **Redis** (for WebSocket support)
+
+---
+
+## 🚀 Getting Started
+
+Follow these steps to set up and run the project locally:
+
+
+1. **Clone the Repository :**
    ```bash
    git clone https://github.com/yourgithubusername/onlinesales.git
    cd onlinesales
